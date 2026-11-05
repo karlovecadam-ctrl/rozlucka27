@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Rozlučka se svobodou 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a rally-style roadbook in one column. Comparison first, then the maps, then the days as three parallel lanes, then the money. */
+:root {
+  --bg: #F2F4F5;
+  --surface: #FFFFFF;
+  --ink: #17212B;
+  --muted: #5A6773;
+  --line: #D3DAE0;
+  --a: #0E8571;
+  --a-soft: #D6EEE8;
+  --b: #BF4F1C;
+  --b-soft: #F7E1D5;
+  --c: #3A56C9;
+  --c-soft: #DEE4F8;
+  --land: #E6EBE3;
+  --sea: #C9DEE8;
+  --sea-ink: #557D8F;
+  --shared: #6B7782;
+  --font-display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-body: "Barlow", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F151A; --surface: #162029; --ink: #E3E9ED; --muted: #95A2AD; --line: #2A3743;
+    --a: #3DBFA3; --a-soft: #173B36; --b: #EF8A57; --b-soft: #43281C; --c: #8EA2F5; --c-soft: #1F2747;
+    --land: #1A242B; --sea: #123241; --sea-ink: #6FA0B5; --shared: #8D99A4;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F151A; --surface: #162029; --ink: #E3E9ED; --muted: #95A2AD; --line: #2A3743;
+  --a: #3DBFA3; --a-soft: #173B36; --b: #EF8A57; --b-soft: #43281C; --c: #8EA2F5; --c-soft: #1F2747;
+  --land: #1A242B; --sea: #123241; --sea-ink: #6FA0B5; --shared: #8D99A4;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+}
+a { color: inherit; text-decoration-color: var(--muted); text-underline-offset: 2px; }
+a:hover { text-decoration-color: var(--ink); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+section { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+.eyebrow, .meta, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.eyebrow { text-transform: uppercase; letter-spacing: 0.09em; margin: 0; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; }
+h1 {
+  font-size: clamp(2.7rem, 7vw, 4.6rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.9rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+}
+h3 { font-size: 1.35rem; line-height: 1.15; font-weight: 600; }
+p { margin: 0; }
+.lede { font-size: 1.15rem; max-width: 62ch; }
+.note { color: var(--muted); max-width: 72ch; font-size: 0.95rem; }
+
+header.top { display: flex; flex-direction: column; gap: 18px; padding-bottom: 28px; border-bottom: 3px solid var(--ink); }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0; }
+.facts div { display: flex; flex-direction: column; }
+.facts dt { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.facts dd { margin: 0; font-weight: 600; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 0.4em;
+  font-family: var(--font-display); font-weight: 600; font-size: 0.95rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 0.05em 0.55em; border-radius: 3px; white-space: nowrap;
+}
+.chip-a { background: var(--a-soft); color: var(--a); }
+.chip-b { background: var(--b-soft); color: var(--b); }
+.chip-c { background: var(--c-soft); color: var(--c); }
+.pick {
+  font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--a); border: 1px solid var(--a); border-radius: 3px; padding: 0 0.45em; margin-left: 6px; white-space: nowrap;
+}
+
+/* comparison table */
+.scroll { overflow-x: auto; min-width: 0; }
+table { border-collapse: collapse; width: 100%; }
+.cmp th, .cmp td { text-align: left; vertical-align: top; padding: 12px 14px 12px 0; border-top: 1px solid var(--line); }
+.cmp thead th { border-top: none; padding-bottom: 10px; }
+.cmp tbody th { font-weight: 500; color: var(--muted); width: 16%; min-width: 120px; font-size: 0.95rem; }
+.cmp td { width: 28%; min-width: 190px; }
+.cmp tr.sum td, .cmp tr.sum th { border-top: 2px solid var(--ink); }
+.cmp tr.sum td { font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.verdict {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 8px;
+  max-width: 80ch;
+}
+.verdict strong { font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.03em; }
+
+/* maps */
+.maptools { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: center; justify-content: space-between; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button {
+  font-family: var(--font-display); font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.04em;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  padding: 6px 12px; border-radius: 4px; cursor: pointer;
+}
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.legend li { display: flex; align-items: center; gap: 8px; font-size: 0.92rem; }
+.legend svg { flex: none; }
+.maps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.mapfig { margin: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.mapfig figcaption { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.mapbox { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--land); min-width: 0; }
+.map { display: block; width: 100%; min-width: 440px; height: auto; }
+.keys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.keys div { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+
+.map .land { fill: var(--land); }
+.map .sea { fill: var(--sea); }
+.map .isl { fill: var(--land); }
+.map .casing { fill: none; stroke: var(--land); stroke-width: 9; stroke-linejoin: round; stroke-linecap: round; }
+.map .r { fill: none; stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+.map .r-a { stroke: var(--a); }
+.map .r-b { stroke: var(--b); }
+.map .r-c { stroke: var(--c); }
+.map .r-s { stroke: var(--shared); }
+.map .r-ret { stroke-width: 3.5; stroke-dasharray: 0.5 8; }
+.map .r-loc { stroke-width: 2.5; stroke-dasharray: 0.5 6; }
+.map .city { fill: var(--ink); }
+.map .ref { fill: var(--muted); }
+.map .pt-a { fill: var(--a); stroke: var(--land); stroke-width: 2.5; }
+.map .pt-b { fill: var(--b); stroke: var(--land); stroke-width: 2.5; }
+.map .pt-c { fill: var(--c); stroke: var(--land); stroke-width: 2.5; }
+.map .base-a { fill: var(--surface); stroke: var(--a); stroke-width: 3; }
+.map .base-b { fill: var(--surface); stroke: var(--b); stroke-width: 3; }
+.map .base-c { fill: var(--surface); stroke: var(--c); stroke-width: 3; }
+.map .opt-a { fill: var(--land); stroke: var(--a); stroke-width: 2.5; stroke-dasharray: 3 2.5; }
+.map .opt-c { fill: var(--land); stroke: var(--c); stroke-width: 2.5; stroke-dasharray: 3 2.5; }
+.map .start { fill: var(--ink); stroke: var(--land); stroke-width: 3; }
+.map text {
+  font-family: var(--font-body); font-size: 13px; fill: var(--ink);
+  paint-order: stroke; stroke: var(--land); stroke-width: 4px; stroke-linejoin: round;
+}
+.map .t-a { fill: var(--a); font-weight: 600; }
+.map .t-b { fill: var(--b); font-weight: 600; }
+.map .t-c { fill: var(--c); font-weight: 600; }
+.map .t-start { font-weight: 700; font-size: 14px; }
+.map .t-m { fill: var(--muted); font-size: 11.5px; }
+.map .t-tag { font-family: var(--font-mono); font-size: 11px; fill: var(--muted); }
+.map .t-ctry { font-family: var(--font-display); font-weight: 600; font-size: 12.5px; letter-spacing: 0.16em; fill: var(--muted); stroke: none; opacity: 0.75; }
+.map .t-sea { font-style: italic; font-size: 14px; fill: var(--sea-ink); stroke: none; }
+.map .g-a, .map .g-b, .map .g-c, .map .g-ab { transition: opacity 0.2s ease; }
+.maps[data-show="a"] .g-b, .maps[data-show="a"] .g-c,
+.maps[data-show="b"] .g-a, .maps[data-show="b"] .g-c,
+.maps[data-show="c"] .g-a, .maps[data-show="c"] .g-b, .maps[data-show="c"] .g-ab { opacity: 0.14; }
+@media (prefers-reduced-motion: reduce) { .map .g-a, .map .g-b, .map .g-c, .map .g-ab { transition: none; } }
+
+/* days */
+.lanes-head, .day { display: grid; grid-template-columns: 84px repeat(3, minmax(0, 1fr)); gap: 0 26px; }
+.lanes-head { padding-bottom: 10px; border-bottom: 3px solid var(--ink); }
+.day { padding-block: 22px; border-bottom: 1px solid var(--line); }
+.dl { display: flex; flex-direction: column; }
+.dl .d { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; line-height: 1; text-transform: uppercase; }
+.dl .n { font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.stage { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.stage .chip { display: none; align-self: flex-start; }
+.stage ul { margin: 8px 0 0; padding-left: 1.1em; display: grid; gap: 5px; }
+.stage li::marker { color: var(--muted); }
+
+/* budget */
+.chartbox { overflow-x: auto; min-width: 0; margin: 0; }
+.chartbox svg { display: block; width: 100%; min-width: 520px; max-width: 760px; height: auto; }
+.chartbox text { font-family: var(--font-body); font-size: 13px; fill: var(--ink); }
+.chartbox .num { font-family: var(--font-mono); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.chartbox .muted { fill: var(--muted); }
+.chartbox .grid { stroke: var(--line); stroke-width: 1; }
+.chartbox .limit { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.chartbox .bar-a { fill: var(--a); }
+.chartbox .bar-b { fill: var(--b); }
+.chartbox .bar-c { fill: var(--c); }
+.chartbox .bar-af { fill: var(--a-soft); stroke: var(--a); stroke-width: 1.5; stroke-dasharray: 4 3; }
+
+.tables { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.bt { display: flex; flex-direction: column; gap: 10px; min-width: 0; align-items: flex-start; }
+.bt .scroll { width: 100%; }
+.bt table th, .bt table td { padding: 8px 0; border-top: 1px solid var(--line); text-align: left; font-weight: 400; vertical-align: top; }
+.bt table td { text-align: right; font-family: var(--font-mono); font-size: 0.86rem; white-space: nowrap; padding-left: 14px; font-variant-numeric: tabular-nums; }
+.bt tr.sum th, .bt tr.sum td { border-top: 2px solid var(--ink); font-weight: 600; }
+.bt tr.sum td { font-family: var(--font-display); font-size: 1.2rem; }
+.bt tr.pp th, .bt tr.pp td { color: var(--muted); }
+
+/* extras */
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.three > div { display: flex; flex-direction: column; gap: 10px; min-width: 0; align-items: flex-start; }
+.three ul, .src { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; }
+.check { list-style: none; margin: 0; padding-left: 0; display: grid; gap: 8px; }
+.check li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.check li::before { content: ""; width: 12px; height: 12px; border: 1.5px solid var(--ink); border-radius: 2px; transform: translateY(1px); }
+.src { font-size: 0.92rem; color: var(--muted); }
+footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 980px) {
+  .lanes-head { display: none; }
+  .day { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .dl { flex-direction: row; align-items: baseline; gap: 10px; }
+  .stage .chip { display: inline-flex; }
+  .tables, .three, .keys { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 860px) {
+  .maps { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">Roadbook · květen 2027 · středa až neděle</p>
+  <h1>Rozlučka se svobodou</h1>
+  <p class="lede">Tři varianty cesty ze Strakonic k moři: Soča + Istrie, Dalmácie, nebo polské Trojměstí. Na jedné stránce trasy, program po dnech a rozpočet.</p>
+  <dl class="facts">
+    <div><dt>Parta</dt><dd>8 kluků, 2 auta</dd></div>
+    <div><dt>Start</dt><dd>Strakonice</dd></div>
+    <div><dt>Rozpočet</dt><dd>70 000 Kč (7 plátců × 10 000)</dd></div>
+    <div><dt>V rozpočtu</dt><dd>cesta, ubytování, zážitky</dd></div>
+    <div><dt>Mimo rozpočet</dt><dd>jídlo, pití, bary, taxi</dd></div>
+  </dl>
+</header>
+
+<section id="srovnani" aria-labelledby="h-srovnani">
+  <h2 id="h-srovnani">Srovnání</h2>
+  <div class="scroll">
+    <table class="cmp">
+      <thead>
+        <tr>
+          <th scope="col"><span class="eyebrow">Varianta</span></th>
+          <th scope="col"><span class="chip chip-a">Soča + Istrie</span><span class="pick">doporučeno</span></th>
+          <th scope="col"><span class="chip chip-b">Dalmácie</span></th>
+          <th scope="col"><span class="chip chip-c">Trojměstí</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Trasa</th><td>570&nbsp;km do Bovce, 260&nbsp;km k moři, 790&nbsp;km domů</td><td>960&nbsp;km tam, 960&nbsp;km zpět</td><td>980&nbsp;km tam, 980&nbsp;km zpět</td></tr>
+        <tr><th scope="row">Čas v autě</th><td>~7&nbsp;h + 3,5&nbsp;h + 8&nbsp;h, s programem po cestě</td><td>~10&nbsp;h tam a ~10&nbsp;h zpět</td><td>~10,5&nbsp;h tam a ~10,5&nbsp;h zpět</td></tr>
+        <tr><th scope="row">Dny s programem</th><td>středa odpoledne až sobota</td><td>čtvrtek až sobota</td><td>čtvrtek až sobota</td></tr>
+        <tr><th scope="row">Příroda a adrenalin</th><td>canyoning v Sušci, průsmyk Vršič, buggy, skoky ze skal na Kamenjaku</td><td>canyoning a zipline na Cetině, silnice na Biokovo</td><td>kajaky na Kašubách, čtyřkolky, pohyblivé duny u Łeby</td></tr>
+        <tr><th scope="row">Noční život</th><td>Pula v pátek a sobotu, případně Sea Star Festival</td><td>Split, výrazně silnější</td><td>Sopoty a Gdaňsk, nejsilnější ze všech tří, i techno</td></tr>
+        <tr><th scope="row">Moře v květnu</th><td>18–20&nbsp;°C</td><td>kolem 20&nbsp;°C</td><td>kolem 10&nbsp;°C, koupání jen pro otužilce</td></tr>
+        <tr><th scope="row">Ubytování</th><td>1 noc Bovec, 3 noci vila s bazénem u Puly</td><td>4 noci dům s bazénem v Podstraně u Splitu</td><td>4 noci dům nebo velký apartmán s grilem v Sopotech</td></tr>
+        <tr class="sum"><th scope="row">Odhad celkem</th><td>48–73 tis. Kč</td><td>57–71 tis. Kč</td><td>51–72 tis. Kč</td></tr>
+        <tr><th scope="row">Na plátce (÷ 7)</th><td class="mono">6 800–10 500 Kč</td><td class="mono">8 100–10 100 Kč</td><td class="mono">7 300–10 300 Kč</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="verdict">
+    <strong>Doporučení: Soča + Istrie</strong>
+    <p>Je nejlevnější a cesta je sama součástí programu: Vršič, Bovec a canyoning cestou k moři. V Dalmácii i v Trojměstí padne celá středa i neděle na sezení v autě.</p>
+    <p>Dalmácie vyhrává na noční život ve Splitu a teplé moře. Trojměstí má nejlepší kluby ze všech tří a ženich má Polsko rád, ale moře bude mít kolem 10&nbsp;°C a program v přírodě je klidnější.</p>
+  </div>
+</section>
+
+<section id="trasy" aria-labelledby="h-trasy">
+  <h2 id="h-trasy">Trasy</h2>
+  <div class="maptools">
+    <div class="seg" role="group" aria-label="Zvýraznit trasu">
+      <button type="button" id="show-all" data-pick="all" aria-pressed="true">Všechny</button>
+      <button type="button" id="show-a" data-pick="a" aria-pressed="false">Soča + Istrie</button>
+      <button type="button" id="show-b" data-pick="b" aria-pressed="false">Dalmácie</button>
+      <button type="button" id="show-c" data-pick="c" aria-pressed="false">Trojměstí</button>
+    </div>
+    <ul class="legend">
+      <li><svg width="30" height="12" aria-hidden="true"><line x1="2" y1="6" x2="28" y2="6" style="stroke:var(--shared)" stroke-width="4" stroke-linecap="round"/></svg>společný úsek do Lince</li>
+      <li><svg width="30" height="12" aria-hidden="true"><line x1="3" y1="6" x2="27" y2="6" style="stroke:var(--a)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="0.5 8"/></svg>cesta domů z Istrie</li>
+      <li><svg width="30" height="14" aria-hidden="true"><rect x="9.5" y="1.5" width="11" height="11" style="fill:var(--surface);stroke:var(--ink)" stroke-width="2.5"/></svg>ubytování</li>
+      <li><svg width="30" height="14" aria-hidden="true"><circle cx="15" cy="7" r="5.5" style="fill:var(--ink)"/></svg>program</li>
+      <li><svg width="30" height="14" aria-hidden="true"><circle cx="15" cy="7" r="5" style="fill:var(--surface);stroke:var(--ink)" stroke-width="2" stroke-dasharray="3 2.5"/></svg>volitelně</li>
+    </ul>
+  </div>
+
+  <div class="maps" data-show="all">
+    <figure class="mapfig">
+      <figcaption>Jih · <span style="color:var(--a)">Soča + Istrie</span> a <span style="color:var(--b)">Dalmácie</span></figcaption>
+      <div class="mapbox">
+        <svg class="map" viewBox="0 0 620 1010" role="img" aria-labelledby="mapSTitle mapSDesc">
+          <title id="mapSTitle">Mapa tras do Istrie a Dalmácie</title>
+          <desc id="mapSDesc">Schematická mapa. Obě trasy vedou ze Strakonic přes České Budějovice do Lince. Soča + Istrie pokračuje přes Salcburk, Taurský tunel, Villach a průsmyk Vršič do Bovce, dál přes Novou Gorici a Koper do Puly; zpět přes Lublaň a Karavanky. Dalmácie pokračuje po dálnici A9 přes Štýrský Hradec, Maribor a Záhřeb po dálnici A1 do Podstrany u Splitu.</desc>
+          <rect class="land" width="620" height="1010"/>
+          <polygon class="sea" points="0,617.5 20,617.5 71.6,601 100.5,598 116,581.5 140.7,602.5 136.6,617.5 120.1,620.5 114.9,635.5 119.1,652 122.2,665.5 127.3,688 143.8,710.5 148,719.5 155.2,736 158.3,727 181,688 183.1,679 195.4,649 209.9,650.5 235.7,674.5 257.4,701.5 275.9,770.5 313.1,805 322.4,815.5 291.4,832 313.1,859 348.2,886 359.5,890.5 362.6,911.5 396.7,922 412.2,917.5 416.3,925 427.6,926.5 442.1,934 476.1,955 510.2,985 525.7,1000 534,1010 152,1010 150,1000 143.8,973 136.6,953.5 125.3,917.5 114.9,907 84,892 63.3,874 52,863.5 20,845.5 0,850"/>
+          <polygon class="isl" points="195.4,680.5 210.9,700 214,737.5 216.1,767.5 207.8,770.5 201.6,737.5 197.5,707.5"/>
+          <polygon class="isl" points="216.1,673 236.7,670 245,692.5 231.6,703 218.1,692.5"/>
+          <polygon class="isl" points="239.8,745 252.2,757 272.8,778 290.4,800.5 283.2,802 262.5,778 245,757"/>
+          <polygon class="isl" points="412.2,943 438,940 463.8,955 458.6,962.5 427.6,959.5 414.2,953.5"/>
+          <polygon class="isl" points="412.2,971.5 443.1,974.5 494.7,980.5 492.7,985 443.1,980.5 414.2,977.5"/>
+
+          <text class="t-ctry" x="30" y="150">NĚMECKO</text>
+          <text class="t-ctry" x="262" y="42">ČESKO</text>
+          <text class="t-ctry" x="250" y="250">RAKOUSKO</text>
+          <text class="t-ctry" x="440" y="430">MAĎARSKO</text>
+          <text class="t-ctry" x="30" y="590">ITÁLIE</text>
+          <text class="t-ctry" x="236" y="590">SLOVINSKO</text>
+          <text class="t-ctry" x="400" y="650">CHORVATSKO</text>
+          <text class="t-ctry" x="392" y="858">DALMÁCIE</text>
+          <text class="t-ctry" x="452" y="800" style="font-size:11px">BOSNA A HERCEGOVINA</text>
+          <text class="t-sea" x="120" y="800">Jaderské moře</text>
+
+          <g class="g-ab">
+            <polyline class="casing" points="154.2,61 213,104.5 216.1,173.5 194.4,203.5"/>
+            <polyline class="r r-s" points="154.2,61 213,104.5 216.1,173.5 194.4,203.5"/>
+          </g>
+
+          <g class="g-b">
+            <polyline class="casing" points="194.4,203.5 189.2,314.5 265.6,350.5 313.1,389.5 334.8,467.5 357.5,487 355.4,512.5 368.8,578.5 324.4,626.5 305.9,767.5 322.4,815.5 368.8,883 430.7,913 427.6,926.5"/>
+            <polyline class="r r-b" points="194.4,203.5 189.2,314.5 265.6,350.5 313.1,389.5 334.8,467.5 357.5,487 355.4,512.5 368.8,578.5 324.4,626.5 305.9,767.5 322.4,815.5 368.8,883 430.7,913 427.6,926.5"/>
+            <polyline class="r r-b r-loc" points="427.6,926.5 442.1,934 476.1,955 480.3,949"/>
+            <circle class="city" cx="313.1" cy="389.5" r="3"/><text x="321" y="393">Štýrský Hradec</text>
+            <circle class="city" cx="334.8" cy="467.5" r="3"/><text x="343" y="471">Maribor</text>
+            <circle class="city" cx="368.8" cy="578.5" r="3"/><text x="377" y="582">Záhřeb</text>
+            <text class="t-tag" x="322" y="700">St, Ne · 960 km</text>
+            <rect class="base-b" x="422.1" y="921" width="11" height="11"/>
+            <circle class="pt-b" cx="416.3" cy="924" r="5"/>
+            <circle class="pt-b" cx="442.1" cy="934" r="5.5"/>
+            <circle class="pt-b" cx="480.3" cy="949" r="5.5"/>
+            <text class="t-b" x="406" y="917" text-anchor="end">Split · noční život</text>
+            <text class="t-b" x="418" y="947" text-anchor="end">Podstrana · dům</text>
+            <text class="t-b" x="451" y="925">Omiš · canyoning, zipline</text>
+            <text class="t-b" x="490" y="961">Biokovo a Makarská</text>
+          </g>
+
+          <g class="g-a">
+            <polyline class="casing" points="194.4,203.5 66.4,278.5 102.6,385 111.8,430 149,458.5 142.8,478 137.6,485.5 118,499 121.1,512.5 128.4,556 161.4,598 136.6,617.5 148,682 149,719.5 158.3,727"/>
+            <polyline class="r r-a" points="194.4,203.5 66.4,278.5 102.6,385 111.8,430 149,458.5 142.8,478 137.6,485.5 118,499"/>
+            <polyline class="r r-a" points="118,499 121.1,512.5 128.4,556 161.4,598 136.6,617.5 148,682 149,719.5 158.3,727"/>
+            <polyline class="r r-a r-ret" points="161.4,598 217.1,541 201.6,514 167.6,478 149,458.5"/>
+            <circle class="city" cx="66.4" cy="278.5" r="3"/><text x="58" y="293" text-anchor="end">Salcburk</text>
+            <text class="t-m" x="111" y="389">Taurský tunel</text>
+            <circle class="city" cx="149" cy="458.5" r="3"/><text x="141" y="454" text-anchor="end">Villach</text>
+            <circle class="city" cx="128.4" cy="556" r="3"/><text class="t-m" x="120" y="560" text-anchor="end">Nova Gorica</text>
+            <circle class="city" cx="217.1" cy="541" r="3"/><text class="t-m" x="225" y="545">Lublaň</text>
+            <text class="t-tag" x="112" y="350">St · 570 km</text>
+            <text class="t-tag" x="116" y="533" text-anchor="end">Čt · 260 km</text>
+            <text class="t-tag" x="222" y="506">Ne · 790 km</text>
+            <circle class="pt-a" cx="137.6" cy="485.5" r="5.5"/>
+            <rect class="base-a" x="112.5" y="493.5" width="11" height="11"/>
+            <circle class="opt-a" cx="114.9" cy="635.5" r="5.5"/>
+            <circle class="opt-a" cx="212" cy="643" r="5.5"/>
+            <rect class="base-a" x="143.5" y="714" width="11" height="11"/>
+            <circle class="pt-a" cx="146.9" cy="706.5" r="5"/>
+            <circle class="pt-a" cx="155.2" cy="736" r="5.5"/>
+            <text class="t-a" x="128" y="483" text-anchor="end">Vršič</text>
+            <text class="t-a" x="108" y="504" text-anchor="end">Bovec · canyoning</text>
+            <text class="t-a" x="106" y="640" text-anchor="end">Sea Star · Umag</text>
+            <text class="t-a" x="221" y="640">Grobnik · okruh</text>
+            <text class="t-a" x="163" y="712">Pula · vila, buggy, kluby</text>
+            <text class="t-a" x="165" y="746">Kamenjak · skoky ze skal</text>
+          </g>
+
+          <g class="g-ab">
+            <circle class="city" cx="213" cy="104.5" r="3"/><text class="t-m" x="221" y="108">Č. Budějovice</text>
+            <circle class="city" cx="194.4" cy="203.5" r="3.5"/><text x="203" y="207">Linec</text>
+          </g>
+          <circle class="ref" cx="409" cy="218.5" r="2.5"/><text class="t-m" x="417" y="222">Vídeň</text>
+          <circle class="start" cx="154.2" cy="61" r="6.5"/><text class="t-start" x="165" y="66">Strakonice</text>
+        </svg>
+      </div>
+    </figure>
+
+    <figure class="mapfig">
+      <figcaption>Sever · <span style="color:var(--c)">Trojměstí</span></figcaption>
+      <div class="mapbox">
+        <svg class="map" viewBox="0 0 620 935" role="img" aria-labelledby="mapNTitle mapNDesc">
+          <title id="mapNTitle">Mapa trasy do Trojměstí</title>
+          <desc id="mapNDesc">Schematická mapa. Trasa vede ze Strakonic přes Prahu, Hradec Králové a Vratislav, po rychlostní silnici S5 přes Poznaň a Bydhošť a po dálnici A1 do Gdaňsku a Sopot. Odtud výlety na Kašuby a do Łeby.</desc>
+          <rect class="land" width="620" height="935"/>
+          <polygon class="sea" points="0,0 620,0 620,77.5 574.4,97 544.8,107.5 528.2,106 512.5,98.5 507.9,94 505.1,82 506,76 500.5,65.5 492.2,52 491.2,43 484.8,35.5 459.8,35.5 413.6,46 367.4,61 348,73 307.4,95.5 230.7,133 155.8,155.5 126.3,170.5 107.8,172 84.7,152.5 66.2,137.5 20,122.5 0,122.5"/>
+          <polygon class="sea" points="107.8,178 135.5,190 140.1,205 117,205 89.3,197.5 80.1,182.5"/>
+          <polygon class="isl" points="491.2,40 509.7,55 530,68.5 528.2,71.5 507.9,58 491.2,44.5"/>
+
+          <text class="t-ctry" x="200" y="330">POLSKO</text>
+          <text class="t-ctry" x="30" y="500">NĚMECKO</text>
+          <text class="t-ctry" x="165" y="830">ČESKO</text>
+          <text class="t-sea" x="200" y="62">Baltské moře</text>
+
+          <circle class="ref" cx="29.2" cy="382" r="2.5"/><text class="t-m" x="37" y="386">Berlín</text>
+          <circle class="ref" cx="60.7" cy="602.5" r="2.5"/><text class="t-m" x="69" y="606">Drážďany</text>
+
+          <g class="g-c">
+            <polyline class="casing" points="75.4,871 123.5,748 253.8,728.5 284.3,697 330.5,694 365.6,593.5 322.1,484 355.4,398.5 417.3,380.5 455.2,292 503.3,247 514.3,107.5 502,95"/>
+            <polyline class="r r-c" points="75.4,871 123.5,748 253.8,728.5 284.3,697 330.5,694 365.6,593.5 322.1,484 355.4,398.5 417.3,380.5 455.2,292 503.3,247 514.3,107.5 502,95"/>
+            <polyline class="r r-c r-loc" points="502,95 476.5,70 431.2,79 413.6,46"/>
+            <polyline class="r r-c r-loc" points="502,95 463.5,119.5"/>
+            <circle class="city" cx="123.5" cy="748" r="3"/><text x="115" y="765" text-anchor="end">Praha</text>
+            <circle class="city" cx="253.8" cy="728.5" r="3"/><text class="t-m" x="254" y="750" text-anchor="middle">Hradec Králové</text>
+            <circle class="city" cx="365.6" cy="593.5" r="3"/><text x="374" y="597">Vratislav</text>
+            <circle class="city" cx="355.4" cy="398.5" r="3"/><text x="364" y="416">Poznaň</text>
+            <circle class="city" cx="455.2" cy="292" r="3"/><text x="464" y="296">Bydhošť</text>
+            <text class="t-tag" x="378" y="505">St, Ne · 980 km</text>
+            <circle class="opt-c" cx="344.3" cy="389.5" r="5.5"/>
+            <circle class="opt-c" cx="549.5" cy="154" r="5.5"/>
+            <circle class="pt-c" cx="514.3" cy="107.5" r="5.5"/>
+            <circle class="pt-c" cx="463.5" cy="119.5" r="5.5"/>
+            <circle class="pt-c" cx="413.6" cy="46" r="5.5"/>
+            <rect class="base-c" x="496.5" y="89.5" width="11" height="11"/>
+            <text class="t-c" x="335" y="393" text-anchor="end">Tor Poznań · okruh</text>
+            <text class="t-c" x="558" y="158">Malbork</text>
+            <text class="t-c" x="516" y="90">Sopoty · dům</text>
+            <text class="t-c" x="522" y="128">Gdaňsk<tspan x="522" dy="15">kluby, čtyřkolky</tspan></text>
+            <text class="t-c" x="455" y="136" text-anchor="end">Kašuby · kajaky</text>
+            <text class="t-c" x="405" y="68" text-anchor="end">Łeba · duny</text>
+          </g>
+
+          <circle class="start" cx="75.4" cy="871" r="6.5"/><text class="t-start" x="86" y="876">Strakonice</text>
+        </svg>
+      </div>
+    </figure>
+  </div>
+
+  <div class="keys">
+    <div><span class="chip chip-a">Soča + Istrie</span><p>Ve středu Vršič a večer Bovec, ve čtvrtek canyoning a přesun k moři, od čtvrtka do neděle vila u Puly.</p></div>
+    <div><span class="chip chip-b">Dalmácie</span><p>Celou dobu jedna základna v Podstraně. Na Cetinu je to 20 minut, do Splitu 15, na Biokovo asi hodina.</p></div>
+    <div><span class="chip chip-c">Trojměstí</span><p>Celou dobu jedna základna v Sopotech. Do Gdaňsku 20 minut, na Kašuby asi hodina, do Łeby hodina a půl.</p></div>
+  </div>
+  <p class="note">Mapy jsou schematické a mají stejné měřítko, takže je vidět, že Gdaňsk je ze Strakonic zhruba stejně daleko jako Split. Časy jízdy počítají s přestávkami.</p>
+</section>
+
+<section id="program" aria-labelledby="h-program">
+  <h2 id="h-program">Program po dnech</h2>
+  <div>
+    <div class="lanes-head" aria-hidden="true">
+      <span></span>
+      <span><span class="chip chip-a">Soča + Istrie</span></span>
+      <span><span class="chip chip-b">Dalmácie</span></span>
+      <span><span class="chip chip-c">Trojměstí</span></span>
+    </div>
+
+    <div class="day">
+      <div class="dl"><span class="d">St</span><span class="n">den 1 · středa</span></div>
+      <div class="stage">
+        <span class="chip chip-a">Soča + Istrie</span>
+        <h3>Strakonice → Bovec</h3>
+        <p class="meta">570 km · ~7 h · odjezd 9:00</p>
+        <ul>
+          <li>Linec, Salcburk a Taurským tunelem do Villachu, tam kolem 15:00.</li>
+          <li>Z Kranjské Gory přes průsmyk Vršič (50 serpentin), pokud je po zimě otevřený. Jinak přes Predil kolem jezera Lago del Predil.</li>
+          <li>Cestou dolů zastávka u soutěsky Velika korita Soče, asi na půl hodiny.</li>
+          <li>Kolem 16:30 Bovec, pivo u řeky a večer gril. Spaní v apartmánu nebo v chatkách v kempu.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-b">Dalmácie</span>
+        <h3>Strakonice → Podstrana</h3>
+        <p class="meta">960 km · ~10 h · odjezd 9:00</p>
+        <ul>
+          <li>České Budějovice, Linec, dálnice A9 přes tunely Bosruck a Gleinalm, Štýrský Hradec, Maribor, Záhřeb a dálnice A1.</li>
+          <li>Příjezd kolem 19:30–20:00.</li>
+          <li>Nákup a gril u domu.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-c">Trojměstí</span>
+        <h3>Strakonice → Sopoty</h3>
+        <p class="meta">980 km · ~10,5 h · odjezd 9:00</p>
+        <ul>
+          <li>Praha, Hradec Králové, Vratislav, rychlostní silnice S5 přes Poznaň a Bydhošť, posledních 90 km po dálnici A1.</li>
+          <li>Příjezd kolem 19:30–20:00.</li>
+          <li>Nákup a gril u domu.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="dl"><span class="d">Čt</span><span class="n">den 2 · čtvrtek</span></div>
+      <div class="stage">
+        <span class="chip chip-a">Soča + Istrie</span>
+        <h3>Canyoning a přesun k moři</h3>
+        <p class="meta">Bovec → Pula · 260 km · ~3,5 h</p>
+        <ul>
+          <li>9:00 canyoning v soutěsce Sušec: 3–3,5 h, pro začátečníky, 50–65 € na osobu. Neopreny jsou v ceně.</li>
+          <li>Oběd, kolem 14:00 odjezd přes Novou Gorici a Koper.</li>
+          <li>Večer vila s bazénem u Puly nebo Medulinu a gril.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-b">Dalmácie</span>
+        <h3>Canyoning na Cetině</h3>
+        <p class="meta">Podstrana → Omiš · ~20 min</p>
+        <ul>
+          <li>Canyoning na Cetině pro začátečníky, zhruba od 50 € na osobu.</li>
+          <li>Odpoledne u bazénu.</li>
+          <li>Večer klidnější bary ve Splitu nebo v Omiši.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-c">Trojměstí</span>
+        <h3>Kajaky na Kašubách</h3>
+        <p class="meta">Kašubské Švýcarsko · ~1 h od Sopot</p>
+        <ul>
+          <li>Sjíždění řeky v Kašubském Švýcarsku, 10 nebo 13,5 km, s dopravou ze Sopot a obědem. Ve skupině 8 lidí asi 63 € na osobu, některé varianty končí u ohniště.</li>
+          <li>Odpoledne zpátky u domu.</li>
+          <li>Večer staré město v Gdaňsku: Dlouhý trh a ulice Mariacka.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="dl"><span class="d">Pá</span><span class="n">den 3 · pátek</span></div>
+      <div class="stage">
+        <span class="chip chip-a">Soča + Istrie</span>
+        <h3>Buggy a první noc v Pule</h3>
+        <p class="meta">Draguzeti u Fažany · Pula</p>
+        <ul>
+          <li>Dopoledne buggy nebo čtyřkolky, 75–195 € podle délky a typu. U buggy se většinou platí za vůz pro dva.</li>
+          <li>Odpoledne u bazénu.</li>
+          <li>Večer staré město v Pule, pak Cargo Club (pátek a sobota 23–5 h) nebo Pietas Julia, dřív legendární Uljanik.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-b">Dalmácie</span>
+        <h3>Zipline a první noc ve Splitu</h3>
+        <p class="meta">Omiš · Split</p>
+        <ul>
+          <li>Dopoledne zipline nad kaňonem Cetiny: 8 lan, dohromady 2,1 km, 2,5–3 h, 65–75 €.</li>
+          <li>Odpoledne Diokleciánův palác, nábřeží Riva a západ slunce na Marjanu.</li>
+          <li>Večer kluby u pláže Bačvice (Tropic, Club Bačvice) nebo Vanilla. Zpátky taxíkem nebo přes Bolt.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-c">Trojměstí</span>
+        <h3>Čtyřkolky a kluby v loděnicích</h3>
+        <p class="meta">okolí Gdaňsku · bývalé loděnice</p>
+        <ul>
+          <li>Dopoledne čtyřkolky s průvodcem asi 10 km za Gdaňskem: 2 h včetně instruktáže, z toho hodina jízdy, s dopravou tam a zpět.</li>
+          <li>Odpoledne Westerplatte nebo areál bývalých loděnic.</li>
+          <li>Večer kluby v loděnicích: B90 (techno a koncerty, vstup 40–120 zł), Crackhouse (underground techno) nebo 100cznia.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="dl"><span class="d">So</span><span class="n">den 4 · sobota</span></div>
+      <div class="stage">
+        <span class="chip chip-a">Soča + Istrie</span>
+        <h3>Kamenjak a hlavní párty</h3>
+        <p class="meta">mys Kamenjak · ~20 min od Puly</p>
+        <ul>
+          <li>Na mys se vjíždí vlastními auty. Jsou tam skály na skákání do vody a pláže.</li>
+          <li>Voda bude mít koncem května kolem 18–20 °C, spíš na skoky než na dlouhé plavání.</li>
+          <li>Večer hlavní párty.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-b">Dalmácie</span>
+        <h3>Biokovo a hlavní párty</h3>
+        <p class="meta">Biokovo · Makarská · ~1 h od základny</p>
+        <ul>
+          <li>Horská silnice na Biokovo s prosklenou vyhlídkou Skywalk, vlastními auty. Vstup v dubnu a květnu asi 10 € na osobu. Aut pouštějí omezený počet, takže vyrazit brzy ráno.</li>
+          <li>Odpoledne pláž a oběd v Makarské.</li>
+          <li>Večer hlavní párty ve Splitu.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-c">Trojměstí</span>
+        <h3>Pohyblivé duny a hlavní párty</h3>
+        <p class="meta">Łeba · ~1,5 h od Sopot</p>
+        <ul>
+          <li>Słowińský národní park: písečná duna Łącka Góra (42 m) mezi mořem a jezerem. K duně se jde pěšky nebo jezdí elektrobusy z Łeby.</li>
+          <li>Pláž u Baltu. Voda má v květnu kolem 10 °C a vzduch přes den kolem 15 °C, takže koupání jen pro otužilce.</li>
+          <li>Večer hlavní párty v Sopotech: ulice Monte Cassino, Sfinks700 (první techno klub v Polsku, venkovní patio od května) a Dream Club.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="day">
+      <div class="dl"><span class="d">Ne</span><span class="n">den 5 · neděle</span></div>
+      <div class="stage">
+        <span class="chip chip-a">Soča + Istrie</span>
+        <h3>Pula → Strakonice</h3>
+        <p class="meta">790 km · ~8 h · odjezd 10:00</p>
+        <ul>
+          <li>Koper, Lublaň, tunel Karavanky, Villach, Salcburk a Linec.</li>
+          <li>Doma kolem 19:00.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-b">Dalmácie</span>
+        <h3>Podstrana → Strakonice</h3>
+        <p class="meta">960 km · ~10 h · odjezd 9:00</p>
+        <ul>
+          <li>Stejnou trasou zpět přes Záhřeb a Štýrský Hradec.</li>
+          <li>Doma kolem 20:00.</li>
+        </ul>
+      </div>
+      <div class="stage">
+        <span class="chip chip-c">Trojměstí</span>
+        <h3>Sopoty → Strakonice</h3>
+        <p class="meta">980 km · ~10,5 h · odjezd 9:00</p>
+        <ul>
+          <li>Stejnou trasou zpět přes Poznaň a Vratislav.</li>
+          <li>Doma kolem 20:00.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rozpocet" aria-labelledby="h-rozpocet">
+  <h2 id="h-rozpocet">Rozpočet</h2>
+  <p class="note">Odhad celkem za 8 lidí na 4 noci. Přerušovaná čára je limit 70 000 Kč.</p>
+  <figure class="chartbox">
+    <svg viewBox="0 0 600 215" role="img" aria-labelledby="chTitle">
+      <title id="chTitle">Rozpětí odhadu: Soča + Istrie 48–73 tisíc Kč, Dalmácie 57–71 tisíc Kč, Trojměstí 51–72 tisíc Kč, Soča + Istrie se Sea Star Festivalem 60–86 tisíc Kč. Limit 70 tisíc Kč.</title>
+      <line class="grid" x1="160" y1="24" x2="160" y2="185"/>
+      <line class="grid" x1="300" y1="24" x2="300" y2="185"/>
+      <line class="grid" x1="440" y1="24" x2="440" y2="185"/>
+      <line class="grid" x1="580" y1="24" x2="580" y2="185"/>
+      <text class="num muted" x="160" y="204" text-anchor="middle">0</text>
+      <text class="num muted" x="300" y="204" text-anchor="middle">30 tis.</text>
+      <text class="num muted" x="440" y="204" text-anchor="middle">60 tis.</text>
+      <text class="num muted" x="580" y="204" text-anchor="end">90 tis.</text>
+
+      <text x="0" y="50">Soča + Istrie</text>
+      <text class="num" x="373" y="50" text-anchor="end">48–73 tis.</text>
+      <rect class="bar-a" x="381.7" y="36" width="120.8" height="18" rx="2"/>
+
+      <text x="0" y="90">Dalmácie</text>
+      <text class="num" x="417" y="90" text-anchor="end">57–71 tis.</text>
+      <rect class="bar-b" x="425.5" y="76" width="64.4" height="18" rx="2"/>
+
+      <text x="0" y="130">Trojměstí</text>
+      <text class="num" x="390" y="130" text-anchor="end">51–72 tis.</text>
+      <rect class="bar-c" x="398.5" y="116" width="96.6" height="18" rx="2"/>
+
+      <text x="0" y="170">Soča + Istrie + Sea Star</text>
+      <text class="num" x="432" y="170" text-anchor="end">60–86 tis.</text>
+      <rect class="bar-af" x="440" y="156" width="120.9" height="18" rx="2"/>
+
+      <line class="limit" x1="486.7" y1="20" x2="486.7" y2="185"/>
+      <text class="num" x="486.7" y="13" text-anchor="middle">limit 70 tis.</text>
+    </svg>
+  </figure>
+
+  <div class="tables">
+    <div class="bt">
+      <span class="chip chip-a">Soča + Istrie</span>
+      <div class="scroll">
+        <table>
+          <tbody>
+            <tr><th scope="row">Benzín (2 auta, ~1 700 km každé)</th><td>~8 700 Kč</td></tr>
+            <tr><th scope="row">Dálnice, tunely, mýto</th><td>~4 000 Kč</td></tr>
+            <tr><th scope="row">Ubytování (1 noc Bovec, 3 noci vila)</th><td>14 000–27 000 Kč</td></tr>
+            <tr><th scope="row">Canyoning Sušec (8 lidí)</th><td>9 800–12 700 Kč</td></tr>
+            <tr><th scope="row">Buggy nebo čtyřkolky</th><td>10 000–20 000 Kč</td></tr>
+            <tr><th scope="row">Kamenjak, vjezd autem</th><td>~1 000 Kč</td></tr>
+            <tr class="sum"><th scope="row">Celkem</th><td>47 500–73 400 Kč</td></tr>
+            <tr class="pp"><th scope="row">Na plátce (÷ 7)</th><td>6 800–10 500 Kč</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="bt">
+      <span class="chip chip-b">Dalmácie</span>
+      <div class="scroll">
+        <table>
+          <tbody>
+            <tr><th scope="row">Benzín (2 auta, ~2 200 km každé)</th><td>~11 000 Kč</td></tr>
+            <tr><th scope="row">Dálnice, tunely, mýto</th><td>~6 700 Kč</td></tr>
+            <tr><th scope="row">Ubytování (4 noci, dům s bazénem)</th><td>14 700–24 500 Kč</td></tr>
+            <tr><th scope="row">Canyoning Cetina (8 lidí)</th><td>9 800–11 800 Kč</td></tr>
+            <tr><th scope="row">Zipline (8 lidí)</th><td>12 700–14 700 Kč</td></tr>
+            <tr><th scope="row">Biokovo (8 lidí)</th><td>~2 000 Kč</td></tr>
+            <tr class="sum"><th scope="row">Celkem</th><td>56 900–70 700 Kč</td></tr>
+            <tr class="pp"><th scope="row">Na plátce (÷ 7)</th><td>8 100–10 100 Kč</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="bt">
+      <span class="chip chip-c">Trojměstí</span>
+      <div class="scroll">
+        <table>
+          <tbody>
+            <tr><th scope="row">Benzín (2 auta, ~2 300 km každé)</th><td>~11 500 Kč</td></tr>
+            <tr><th scope="row">Mýto (dálnice A1 u Gdaňsku)</th><td>~500 Kč</td></tr>
+            <tr><th scope="row">Ubytování (4 noci, dům s grilem)</th><td>16 100–29 900 Kč</td></tr>
+            <tr><th scope="row">Kajaky na Kašubách (8 lidí)</th><td>~12 300 Kč</td></tr>
+            <tr><th scope="row">Čtyřkolky (8 lidí, odhad)</th><td>9 200–16 100 Kč</td></tr>
+            <tr><th scope="row">Łeba: duna, elektrobus, parkování</th><td>~1 500 Kč</td></tr>
+            <tr class="sum"><th scope="row">Celkem</th><td>51 100–71 800 Kč</td></tr>
+            <tr class="pp"><th scope="row">Na plátce (÷ 7)</th><td>7 300–10 300 Kč</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="note">Předpoklady: 8 lidí, 2 auta, spotřeba 7 l/100 km, benzín 36 Kč/l, kurz 24,5 Kč/€ a 5,75 Kč/zł. Ceny aktivit pocházejí z rezervačních webů pro rok 2026. Ceny ubytování a čtyřkolek v Polsku jsou odhad. Česká dálniční známka není započítaná v žádné variantě.</p>
+</section>
+
+<section id="moznosti" aria-labelledby="h-moznosti">
+  <h2 id="h-moznosti">Možnosti navíc</h2>
+  <div class="three">
+    <div>
+      <span class="chip chip-a">Soča + Istrie</span>
+      <ul>
+        <li><strong>Sea Star Festival v Umagu.</strong> V letech 2025 i 2026 se konal koncem května od čtvrtka do neděle (2026: 28.–31. 5.), lístek v předprodeji kolem 64 €. Pokud vyjde termín, základna by byla v Novigradu nebo Umagu a páteční a sobotní večer na festivalu. Celkem pak 60–86 tis. Kč.</li>
+        <li><strong>Soukromá loď na Kamenjak</strong> s kapitánem a skákáním ze skal, podle nabídek 350–600 € za loď (neověřeno). Spolu s buggy by se rozpočet dostal nad limit, takže spíš jedno z toho.</li>
+        <li><strong>Okruh Grobnik u Rijeky</strong>, hodina z Puly, pořádá track days s vlastními auty. Termíny a ceny na rok 2027 zatím nejsou.</li>
+      </ul>
+    </div>
+    <div>
+      <span class="chip chip-b">Dalmácie</span>
+      <ul>
+        <li><strong>Rafting na Cetině místo zipline</strong>, od 38 € na osobu. Celkem pak 53–67 tis. Kč.</li>
+        <li><strong>Klub Deep v Makarské</strong> je v jeskyni ve skále nad mořem. Je potřeba ověřit, jestli má v květnu otevřeno.</li>
+        <li><strong>Red Bull Ring ve Spielbergu</strong> leží kousek od dálnice A9. Zážitkové jízdy začínají na 177 € na osobu, takže jsou mimo rozpočet.</li>
+      </ul>
+    </div>
+    <div>
+      <span class="chip chip-c">Trojměstí</span>
+      <ul>
+        <li><strong>Tor Poznań</strong> leží přímo u trasy. V sezóně pořádá zhruba každé dva týdny track days s vlastním autem, vstup údajně od 199 zł. Zastávka přidá 2–3 hodiny, takže jen pokud termín vyjde na středu nebo neděli.</li>
+        <li><strong>Hrad Malbork</strong>, obří gotický hrad řádu německých rytířů zapsaný v UNESCO, asi 50 minut od Gdaňsku.</li>
+        <li><strong>Gdyně</strong> má vlastní elektronické kluby Drugi Dom a Svera, 15 minut ze Sopot.</li>
+        <li><strong>Autodrom Pomorze</strong> v Pszczółkách u Gdaňsku je malý okruh pro tréninky a firemní akce. Ceny se mi nepodařilo zjistit.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="overit" aria-labelledby="h-overit">
+  <h2 id="h-overit">Před rezervací ověřit</h2>
+  <ul class="check">
+    <li>Termín Sea Star Festivalu 2027 na seastarfestival.com.</li>
+    <li>Jestli je Vršič po zimě otevřený (dopravní informace na promet.si).</li>
+    <li>Ceny domů a vil pro 8 lidí v květnu, ve všech variantách jsou zatím jen odhadem.</li>
+    <li>Regulaci dopravy na Biokovu v květnu (pp-biokovo.hr).</li>
+    <li>Otevírací dobu klubů v Pule, ve Splitu a v Makarské a program klubů B90, Crackhouse a Sfinks700 v termínu.</li>
+    <li>Ceny čtyřkolek u Gdaňsku, operátoři je online neuvádějí.</li>
+    <li>Vstupné na dunu Łącka Góra, trasa je placená od 1. května.</li>
+    <li>Kalendář track days na Grobniku (grobnik.hr) a na Tor Poznań (tptd.pl).</li>
+    <li>Svátky: 6. 5. a 17. 5. 2027 je volno v Rakousku a Německu, 27. 5. v Rakousku, Chorvatsku a Polsku. Na tyhle víkendy bývá víc lidí a dražší ubytování.</li>
+  </ul>
+</section>
+
+<section id="zdroje" aria-labelledby="h-zdroje">
+  <h2 id="h-zdroje">Zdroje</h2>
+  <ul class="src">
+    <li><a href="https://www.seastarfestival.com/en/news/the-eighth-edition-of-sea-star-festival-lands-from-may-28-to-31-2026" target="_blank" rel="noopener">Sea Star Festival 2026, termín</a> a <a href="https://www.seastarfestival.com/en?p=61951" target="_blank" rel="noopener">ceny lístků</a></li>
+    <li><a href="https://www.manawa.com/en-GB/search-by-sport-and-spot/water/canyoning/bovec/122-1192-2496" target="_blank" rel="noopener">Canyoning v Bovci</a>, <a href="https://canyoning-slovenia.com/bovec-canyoning/canyoning-susec/" target="_blank" rel="noopener">soutěska Sušec</a></li>
+    <li><a href="https://www.soca-valley.com/en/soca-valley/news/2026052909470266/introduction-of-a-new-traffic-regime-on-the-vrsic-pass-in-the-2026-tourist-season/" target="_blank" rel="noopener">Doprava na Vršiči v roce 2026</a></li>
+    <li><a href="https://www.fodors.com/world/europe/croatia/istria/places/pula/things-to-do/nightlife" target="_blank" rel="noopener">Noční život v Pule (Fodor's)</a>, <a href="https://bookiscout.com/en/guides/pula-nightlife" target="_blank" rel="noopener">Pula (Bookiscout)</a>, <a href="https://kupi.com/en/explore/croatia/pula/cargo-club" target="_blank" rel="noopener">Cargo Club</a></li>
+    <li><a href="https://boldtrip-rush.pages.dev/en/quad-biking/pula/" target="_blank" rel="noopener">Čtyřkolky u Puly</a>, <a href="https://www.valamar-experience.com/experience/excursions/buggy-quad-safari-1/" target="_blank" rel="noopener">Buggy &amp; Quad Safari</a>, <a href="https://www.checkyeti.com/en/boat-tours/croatia/premantura/private-full-day-boat-trips" target="_blank" rel="noopener">lodě na Kamenjak</a></li>
+    <li><a href="https://dnevnik.hr/vijesti/automotiv/grobnik-auto-track-day.html" target="_blank" rel="noopener">Track day na Grobniku</a></li>
+    <li><a href="https://www.checkyeti.com/de/rafting-canyoning/kroatien/omis/rafting-canyoning-touren" target="_blank" rel="noopener">Rafting a canyoning na Cetině</a>, <a href="https://www.expedia.co.uk/things-to-do/omis-3-hour-cetina-canyon-zipline-experience.a45903374.activity-details" target="_blank" rel="noopener">zipline Omiš</a></li>
+    <li><a href="https://www.timeout.com/croatia/music-nightlife/split-nightlife-guide" target="_blank" rel="noopener">Noční život ve Splitu</a>, <a href="https://splitcurated.com/taxis-and-ridesharing-in-split/" target="_blank" rel="noopener">taxi a Bolt ve Splitu</a>, <a href="https://curlytales.com/when-in-croatia-dont-miss-this-epic-nightclub-in-a-cave-where-you-dance-under-stars-overlooking-the-ocean" target="_blank" rel="noopener">klub Deep v Makarské</a></li>
+    <li><a href="https://simply-adria.com/blog/croatia/skywalk-biokovo-price-2026-tickets-entrance-fee-full-guide" target="_blank" rel="noopener">Biokovo Skywalk, ceny 2026</a>, <a href="https://pp-biokovo.hr/en/skywalk-biokovo" target="_blank" rel="noopener">Park přírody Biokovo</a></li>
+    <li><a href="https://www.redbullring.com/en/experiences/drivingexperiences/de/tracks/" target="_blank" rel="noopener">Red Bull Ring, zážitkové jízdy</a></li>
+    <li><a href="https://nakordoni.eu/cs/driving/prague-to-gdansk" target="_blank" rel="noopener">Trasa Praha – Gdaňsk</a>, <a href="https://mobility.autopay.pl/en/a1" target="_blank" rel="noopener">mýto na dálnici A1</a>, <a href="https://cuk.pl/porady/oplaty-na-autostradzie-a1" target="_blank" rel="noopener">sazby A1 v roce 2026</a></li>
+    <li><a href="https://www.toursingdansk.pl/oferty,kayak-trip-through-kashubian-switzerland.html" target="_blank" rel="noopener">Kajaky v Kašubském Švýcarsku</a>, <a href="https://www.myguidegdansk.com/experiences/gdansk-guided-quad-safari-off-road-adventure" target="_blank" rel="noopener">čtyřkolky u Gdaňsku</a></li>
+    <li><a href="https://mapa-turystyczna.pl/route/34096" target="_blank" rel="noopener">Trasa na dunu Łącka Góra</a>, <a href="https://www.polskieszlaki.pl/en/slowinski-national-park/" target="_blank" rel="noopener">Słowińský národní park</a>, <a href="https://www.seatemperatu.re/europe/poland/sopot/month/may/" target="_blank" rel="noopener">teplota moře v Sopotech</a></li>
+    <li><a href="https://mixmag.net/feature/sfinks-poland-oldest-nightclub-30-years-outrageous" target="_blank" rel="noopener">Sfinks700 (Mixmag)</a>, <a href="https://triverna.pl/blog/sopot-kluby" target="_blank" rel="noopener">kluby v Sopotech</a>, <a href="https://europenightlife.com/poland/gdansk/best-clubs-in-gdansk" target="_blank" rel="noopener">kluby v Gdaňsku</a></li>
+    <li><a href="https://elektromobilni.pl/chcesz-sie-wyszalec-jedz-na-tor/" target="_blank" rel="noopener">Track days na Tor Poznań</a></li>
+    <li><a href="https://e-autopalyamatrica.hu/en/europai-autopalya-matrica-arak-2026" target="_blank" rel="noopener">Dálniční známky 2026</a>, <a href="https://mobility.autopay.eu/de/wissen/fahrerhandbuch/tunnel-oesterreich/" target="_blank" rel="noopener">rakouské tunely 2026</a>, <a href="https://loudavymkrokem.cz/en/croatia-road-trip-guide/" target="_blank" rel="noopener">mýto v Chorvatsku</a></li>
+  </ul>
+</section>
+
+<footer>Stav k 5. 11. 2026. Ceny aktivit pocházejí z rezervačních webů pro rok 2026, ceny ubytování jsou odhad.</footer>
+
+</div>
+
+<script>
+(function () {
+  var maps = document.querySelector('.maps');
+  var buttons = document.querySelectorAll('.seg button');
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      maps.setAttribute('data-show', btn.getAttribute('data-pick'));
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
